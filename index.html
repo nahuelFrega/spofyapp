@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="API Spotify">
+        <meta name="author" content="">
+        
+        <title>Spotify API</title>
+
+        <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/core.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/components.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/icons.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/pages.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/menu.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/responsive.css" rel="stylesheet" type="text/css" />
+        <script src="assets/js/estatico/modernizr.min.js"></script>
+    </head>
+
+
+    <body onload="init()">
+        
+        <!-- INICIO - Header -->
+        <header id="topnav">
+            <div class="topbar-main">
+                <div class="container">
+                    <div class="logo">
+                        <a href="index.html" class="logo"><i class="fa fa-spotify"></i> <span>API | Spotify</span> </a>
+                    </div>
+                    <div class="menu-extras">
+                        <!-- INICIO - Datos usuario + Logout -->
+                        <ul class="nav navbar-nav navbar-right pull-right">
+                            <li class="dropdown"> 
+                                <a href="">
+                                    <i class="fa fa-spotify"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- FIN - Header -->
+        
+        <!-- INICIO - Modal -->
+        <div id="modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog" style="width:70%;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    </div>
+                    <div class="modal-body">   
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card-box-form">
+                                    <div class="row">
+                                        <div class="col-md-12" id="grilla_album_contenido"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- FIN - Modal -->
+        
+        <!-- INICIO - Body -->
+        <div class="wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <ul class="nav nav-tabs tabs">
+                            <li class="active tab">
+                                <a href="#buscador" data-toggle="tab" aria-expanded="false">
+                                    <span class="visible-xs"><i class="fa fa-home"></i></span>
+                                    <span class="hidden-xs">Buscador</span>
+                                </a>
+                            </li>
+                            <li class="tab">
+                                <a href="#favoritos" data-toggle="tab" aria-expanded="false">
+                                    <span class="visible-xs"><i class="fa fa-user"></i></span>
+                                    <span class="hidden-xs">Favoritos</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="buscador">
+                                <div class="row">
+                                    <!-- INICIO - Input buscador  -->
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label class="control-label">Buscar por artista</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="buscar_artista" maxlength="20">
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn waves-effect waves-light btn-primary" id="btn_buscar_artista"><i class="ion-search"></i></button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- FIN - Input buscador  -->
+                                    
+                                    <!-- INICIO - Grilla Artistas  -->     
+                                    <div class="col-md-12" id="grilla_artistas"></div> 
+                                    <!-- FIN - Grilla Artistas  -->
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="favoritos">
+                                <div class="row">
+                                    <!-- INICIO - Grilla Favoritos  -->  
+                                    <div class='row'>
+                                        <div class='col-sm-12'>
+                                            <div class='card-box table-responsive'>
+                                                <h4 class='m-t-0 header-title'><b>Artistas Favoritos</b></h4>
+                                                <table class='table table-hover table-striped m-0 table-responsive'>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Foto</th>
+                                                            <th>Artista</th>
+                                                            <th>Álbumes</th>
+                                                            <th>Quitar favorito</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="col-md-12" id="grilla_favoritos"></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- FIN - Grilla Favoritos  -->
+                                    <div class="col-md-12" id="grilla_albumes"></div>
+                                    <div class="col-md-12" id="grilla_album_contenido"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- FIN - Body -->
+        
+        <!-- jQuery  -->
+        <script src="assets/js/estatico/jquery.min.js"></script>
+        <script src="assets/js/estatico/bootstrap.min.js"></script>
+        <script src="assets/js/estatico/detect.js"></script>
+        <script src="assets/js/estatico/fastclick.js"></script>
+        <script src="assets/js/estatico/jquery.blockUI.js"></script>
+        <script src="assets/js/estatico/waves.js"></script>
+        <script src="assets/js/estatico/wow.min.js"></script>
+        <script src="assets/js/estatico/jquery.nicescroll.js"></script>
+        <script src="assets/js/estatico/jquery.scrollTo.min.js"></script>
+        <!-- Para el manejo de Fechas -->
+        <script src="plugins/moment/moment.js" type="text/javascript"></script>
+        <!-- Custom main Js -->
+        <script src="assets/js/estatico/jquery.core.js"></script>
+        <script src="assets/js/estatico/jquery.app.js"></script>
+        <!-- Logica -->
+        <script type="text/javascript" src="assets/js/init.js"></script>
+        <script type="text/javascript" src="assets/js/mostrar_resultados.js"></script>
+    </body>
+</html>
