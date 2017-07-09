@@ -21,7 +21,7 @@ function mostrar_resultado_artistas(array_artistas) {
 
                             var array_images = info_artista.images;
 
-                            for (j in array_images) {
+                            for (var j in array_images) {
                                var objeto_images = array_images[j];
                                var url_images = objeto_images[Object.keys(objeto_images)[1]];
                             }
@@ -32,8 +32,12 @@ function mostrar_resultado_artistas(array_artistas) {
                                     html += "<td><img class='circular--square' src='' width='42' height='42'></td>";       
                                 }
                                 html += "<td>" + info_artista.name + "</td>";
-                                //html += "<td><a href='#' id='" + info_artista.id + "' class='btn_favoritos'><i class='md md-favorite-outline'></i></a></td>";
-                                html += "<td><a href='javascript:void(0)' onclick='agregar_favoritos(this.id);' id='" + info_artista.id + "'><i class='md md-favorite-outline'></i></a></td>";
+                                var en_favoritos = comprueba_favorito(info_artista.id); // Comprueba si el artista ya se encuentra en favoritos
+                                if (en_favoritos === -1) {
+                                    html += "<td><a href='javascript:void(0)' onclick='agregar_favoritos(this.id);' id='" + info_artista.id + "'><i class='md md-favorite-outline'></i></a></td>";
+                                } else {
+                                    html += "<td><a href='javascript:void(0)'><i class='md md-favorite'></i></a></td>";
+                                }
                             html += "</tr>";
                         }
                     html += "</tbody>";
@@ -68,7 +72,8 @@ function mostrar_favoritos(array_artistas_favoritos) {
             }
             html += "<td>" + info_artista_fav.name + "</td>";
             html += "<td><button onclick='buscar_album_por_artista(this.id);' id='" + info_artista_fav.id + "' type='button' class='btn btn-primary waves-effect waves-light'>Ver</button></td>"
-            html += "<td><a href='javascript:void(0)'> <i class='glyphicon glyphicon-remove' id='btn_fav" + info_artista_fav.id + "' ></i></a></td>";
+            html += "<td><button onclick='borrar_artista_fav(this.id);' id='" + info_artista_fav.id + "' type='button' class='btn btn-primary waves-effect waves-light'>Borrar</button></td>"
+            html += "<td><a href='javascript:void(0)' onclick='borrar_artista_fav(this.id);' id='" + info_artista_fav.id + "'> <i class='glyphicon glyphicon-remove'></i></a></td>";
         html += "</tr>";
     }
     
@@ -113,7 +118,7 @@ function mostrar_resultado_albumes(array_albumes) {
                                         html += "<td><img class='circular--square' src='' width='42' height='42'></td>";       
                                     }
                                     html += "<td>" + info_album.name + "</td>";
-                                    html += "<td><button onclick='buscar_detalle_album(this.id," + url_images + "," + info_album.name + ");' id='" + info_album.id + "' type='button' class='btn btn-primary waves-effect waves-light'>Ver Album</button></td>"
+                                    html += "<td><button onclick='buscar_detalle_album(this.id);' id='" + info_album.id + "' type='button' class='btn btn-primary waves-effect waves-light'>Ver Album</button></td>"
                                 html += "</tr>";
                             }
                     html += "</tbody>";

@@ -1,17 +1,16 @@
 function init() {
     
     console.log('pagina lista');
-    array_fav = [];
-    
     recorrer_ls();
+    comprueba_favorito()
 }
 
 
+// Busca ARTISTAS por NOMBRE en la API de Spotify
 $("#btn_buscar_artista").click(function() {
     
     console.log('entro a buscar artistas');
     
-    //Ejemplo: https://platzi-music-api.now.sh/search?q=pepe&type=artist
     var artista             = $("#buscar_artista").val();
     var tipo                = 'artist';
     var api_method          = 'POST';
@@ -42,51 +41,38 @@ $("#btn_buscar_artista").click(function() {
 });
 
 
+// Funcion para agregar a favoritos los artistas elegidos en la pantalla "Buscador"
 function agregar_favoritos(id_artista) {
     
     console.log('entro a favoritos');
     
+    var array_fav = [];
     var id_ls = "id" + id_artista;
     
     array_fav.push(id_artista);
     
-    localStorage.setItem(id_ls, id_artista);
+    localStorage.setItem(id_ls, JSON.stringify(id_artista));
     
     consultar_artistas_fav(array_fav);
 }
 
 
+// Funcion que recorre el localStorage para luego mostrar en la pantalla "Favoritos" los artistas favoritos
 function recorrer_ls() {
     
-    var array_favoritos;
+    var localStorage_info;
+    var array_favoritos = [];
     
     for (var i = 0; i < localStorage.length; i++) {
-        array_favoritos += localStorage[i];
-        console.log('localStorage: ' + localStorage[i]);
-    }
-   
-    /*
-    for (var i in localStorage) {
-        array_favoritos += localStorage[i] + ',';
-        console.log('localStorage: ' + localStorage[i]);
-        
+        localStorage_info = JSON.parse(localStorage.getItem(localStorage.key(i)));
+        array_favoritos.push(localStorage_info);
     }
     
-    
-    
-    array_favoritos_cleaned2 = array_favoritos.slice(0, -1);
-    array_favoritos_cleaned2 = array_favoritos.slice(0, -1);
-    console.log('array_favoritos_cleaned: ' + array_favoritos_cleaned);
-    */
-   
-   
-    
-    var array_favoritos_cleaned = "4KOorc5WXPSuujoB2Xb8BE";
-    
-    consultar_artistas_fav(array_favoritos_cleaned);
+    consultar_artistas_fav(array_favoritos);
 }
 
 
+// La funcion conuslta por NOMBRE de ARTISTA usando como datos lo almacenado en el localStorage
 function consultar_artistas_fav(array_favoritos) {
     
     console.log('entro a buscar artistas favoritos: ' + array_favoritos);     
@@ -118,29 +104,11 @@ function consultar_artistas_fav(array_favoritos) {
     });
 }
 
-/*
-$(".btn_favoritos").on('click', function(e) {
-    
-    e.preventDefault();
-    
-    console.log('entro a favoritos');
-    
-    var id_ls = "id" + id_artista;
-    
-    localStorage.setItem(id_ls, JSON.stringify({
-        "id": id_artista,
-        "imagen": imagen_artista,
-        "nombre": nombre_artista
-    }));
-});
-*/
 
-// Busca albums por ID de ARTISTA
+// Busca en la API albumes usando como dato el ID de ARTISTA
 function buscar_album_por_artista(id_artista) {
     
     console.log('entro a buscar albumes');
-    
-    // Ejemplo: https://platzi-music-api.now.sh/artists/10gzBoINW3cLJfZUka8Zoe/albums?market=AR&album_type=single
     
     var api_method          = 'POST';
     var api_datatype        = 'JSON';
@@ -172,12 +140,10 @@ function buscar_album_por_artista(id_artista) {
 }
 
 
-// Busca el detalle de un album por ID de ALBUM
+// Busca en la API el detalle de un album usando el ID del ALBUM
 function buscar_detalle_album(id_album,imagen_album,nombre_album) {
     
     console.log('entro a buscar albumes: ' + imagen_album + ' ' + nombre_album);
-    
-    // Ejemplo: https://platzi-music-api.now.sh/albums/2UibTz5TYp1zbacZUcnYx1/tracks
     
     var api_method          = 'POST';
     var api_datatype        = 'JSON';
@@ -203,6 +169,33 @@ function buscar_detalle_album(id_album,imagen_album,nombre_album) {
         
         } 
     });
+}
+
+
+// Funcion para eliminar artistas de Favoritos
+function borrar_artista_fav(id_artista) {
+    
+    console.log('entro a borrar favorito: ' + id_artista);
+    
+    localStorage.removeItem(localStorage.key(id_artista));
+    recorrer_ls();
+}
+
+
+// Funcion para comprobar si el artista ya esta en favoritos
+function comprueba_favorito(id_artista) {
+    
+    var localStorage_info;
+    var array_favoritos = [];
+    
+    for (var i = 0; i < localStorage.length; i++) {
+        localStorage_info = JSON.parse(localStorage.getItem(localStorage.key(i)));
+        array_favoritos.push(localStorage_info);
+    }
+    
+    var resultado = array_favoritos.indexOf(id_artista);
+    
+    return resultado;
 }
 
 
